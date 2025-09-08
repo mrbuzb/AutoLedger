@@ -4,7 +4,7 @@ public class Expense
 {
     public long Id { get; set; }
     public long VehicleId { get; set; }
-    public int CategoryId { get; set; }
+    public long CategoryId { get; set; }
 
     public DateTime Date { get; set; }
     public decimal Amount { get; set; }
