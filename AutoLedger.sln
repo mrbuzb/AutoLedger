@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35931.197
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{938781EA-06FD-48BC-AAFA-06336AED0FEE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoLedger.Api", "src\AutoLedger.Api\AutoLedger.Api.csproj", "{AE501006-D686-4DC6-AB73-369B3BBCF7F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoLedger.Application", "src\AutoLedger.Application\AutoLedger.Application.csproj", "{F9958950-45F7-4657-AC09-B13E32CB1842}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoLedger.Persistance", "src\AutoLedger.Persistance\AutoLedger.Persistance.csproj", "{BFF76583-8C2F-43AA-BD07-283DA812E375}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoLedger.Domain", "src\AutoLedger.Domain\AutoLedger.Domain.csproj", "{CE085CCE-9729-4218-89B9-F74801C30221}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoLedger.Core", "src\AutoLedger.Core\AutoLedger.Core.csproj", "{7E04D0A8-3B37-4F32-A8FA-3C9D58D862C2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AE501006-D686-4DC6-AB73-369B3BBCF7F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE501006-D686-4DC6-AB73-369B3BBCF7F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE501006-D686-4DC6-AB73-369B3BBCF7F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE501006-D686-4DC6-AB73-369B3BBCF7F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9958950-45F7-4657-AC09-B13E32CB1842}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9958950-45F7-4657-AC09-B13E32CB1842}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9958950-45F7-4657-AC09-B13E32CB1842}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9958950-45F7-4657-AC09-B13E32CB1842}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFF76583-8C2F-43AA-BD07-283DA812E375}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFF76583-8C2F-43AA-BD07-283DA812E375}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFF76583-8C2F-43AA-BD07-283DA812E375}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFF76583-8C2F-43AA-BD07-283DA812E375}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE085CCE-9729-4218-89B9-F74801C30221}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE085CCE-9729-4218-89B9-F74801C30221}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE085CCE-9729-4218-89B9-F74801C30221}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE085CCE-9729-4218-89B9-F74801C30221}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E04D0A8-3B37-4F32-A8FA-3C9D58D862C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E04D0A8-3B37-4F32-A8FA-3C9D58D862C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E04D0A8-3B37-4F32-A8FA-3C9D58D862C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E04D0A8-3B37-4F32-A8FA-3C9D58D862C2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AE501006-D686-4DC6-AB73-369B3BBCF7F1} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{F9958950-45F7-4657-AC09-B13E32CB1842} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{BFF76583-8C2F-43AA-BD07-283DA812E375} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{CE085CCE-9729-4218-89B9-F74801C30221} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{7E04D0A8-3B37-4F32-A8FA-3C9D58D862C2} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5DBD35A4-9D0C-43B7-9D88-56AEAFE64F74}
+	EndGlobalSection
+EndGlobal
