@@ -26,7 +26,6 @@
     <ProjectReference Include="..\AutoLedger.Application\AutoLedger.Application.csproj" />
     <ProjectReference Include="..\AutoLedger.Core\AutoLedger.Core.csproj" />
     <ProjectReference Include="..\AutoLedger.Infrastructure\AutoLedger.Infrastructure.csproj" />
-    <ProjectReference Include="..\AutoLedger.Persistance\AutoLedger.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
