@@ -2,7 +2,7 @@
 
 namespace AutoLedger.Application.Interfaces;
 
-public interface IExspenseCategory
+public interface IExpenseCategoryRepository
 {
     Task<ExpenseCategory?> SelectExpenseCategoryByIdAsync(long id);
     Task<ExpenseCategory?> SelectExpenseCategoryByNameAsync(string name);

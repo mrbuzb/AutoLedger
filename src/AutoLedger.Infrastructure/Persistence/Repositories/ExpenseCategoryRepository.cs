@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AutoLedger.Infrastructure.Persistence.Repositories
 {
-    public class ExspenseCategory(AppDbContext appDbContext) : IExspenseCategory
+    public class ExspenseCategoryRepository(AppDbContext appDbContext) : IExpenseCategoryRepository
     {
         public async Task<long> AddExpenseCategoryAsync(ExpenseCategory expenseCategory)
         {
