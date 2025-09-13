@@ -11,6 +11,7 @@ using AutoLedger.Domain.Entities;
 using FluentEmail.Core;
 using FluentEmail.Smtp;
 using FluentValidation;
+using Google.Apis.Auth;
 
 namespace AutoLedger.Application.Services.Implementations;
 
@@ -18,6 +19,80 @@ public class AuthService(IRoleRepository _roleRepo, IValidator<UserCreateDto> _v
     IUserRepository _userRepo, ITokenService _tokenService, IValidator<UserLoginDto> _validatorForLogin,
     IRefreshTokenRepository _refTokRepo) : IAuthService
 {
+
+
+    public async Task<LoginResponseDto> GoogleLoginAsync(GoogleAuthDto dto)
+    {
+        var payload = await GoogleJsonWebSignature.ValidateAsync(dto.IdToken, new GoogleJsonWebSignature.ValidationSettings());
+
+        var user = await _userRepo.GetUserByGoogleId(payload.Subject);
+
+        if (user == null)
+        {
+            throw new UnauthorizedAccessException();
+        }
+
+        var userTokenDto = new UserGetDto
+        {
+            UserId = user.UserId,
+            UserName = user.UserName,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            Email = user.Confirmer!.Email,
+            Role = user.Role.Name
+        };
+
+        var token = _tokenService.GenerateToken(userTokenDto);
+
+        var loginResponseDto = new LoginResponseDto
+        {
+            AccessToken = token,
+        };
+
+        return loginResponseDto;
+    }
+
+
+
+
+
+
+    public async Task<long> GoogleRegisterAsync(GoogleAuthDto dto)
+    {
+        var payload = await GoogleJsonWebSignature.ValidateAsync(dto.IdToken, new GoogleJsonWebSignature.ValidationSettings());
+
+        var user = await _userRepo.GetUserByGoogleId(payload.Subject);
+
+        if (user != null)
+        {
+            return user.UserId;
+        }
+
+        user = new User
+        {
+            UserName = payload.Email.Split('@')[0],
+            FirstName = payload.GivenName,
+            LastName = payload.FamilyName,
+            GoogleId = payload.Subject,
+            ProfileImgUrl = payload.Picture,
+            RoleId = await _roleRepo.GetRoleIdAsync("User"),
+        };
+
+        var userId = await _userRepo.AddUserAsync(user);
+        var userEntity = await _userRepo.GetUserByIdAsync(userId);
+        userEntity.Confirmer = new UserConfirme
+        {
+            UserId = userId,
+            Email = payload.Email,
+            IsConfirmed = payload.EmailVerified,
+        };
+
+        await _userRepo.UpdateUserAsync(userEntity);
+        return user.UserId;
+    }
+
+
+
 
 
     public async Task<long> SignUpUserAsync(UserCreateDto userCreateDto)
