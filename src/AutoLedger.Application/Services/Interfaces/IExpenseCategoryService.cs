@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AutoLedger.Application.Dtos;
 
-namespace AutoLedger.Application.Services.Interfaces
+namespace AutoLedger.Application.Services.Interfaces;
+
+public interface IExpenseCategoryService
 {
-    internal class IExpenseCategoryService
-    {
-    }
+    Task<long> AddExpenseCategoryAsync(string name);
+    Task DeleteExpenseCategoryAsync(long id);
+    Task<ICollection<ExpenseCategoryResponseDto>> GetAllExpenseCategoriesAsync();
+    Task<ExpenseCategoryResponseDto> GetExpenseCategoryByNameAync(string name);
+    Task UpdateExpenseCategoryAsync(ExpenseCategoryResponseDto expenseCategoryResponse);
 }
