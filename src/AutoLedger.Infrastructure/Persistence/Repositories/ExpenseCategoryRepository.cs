@@ -32,7 +32,7 @@ namespace AutoLedger.Infrastructure.Persistence.Repositories
 
         public async Task<ExpenseCategory?> SelectExpenseCategoryByIdAsync(long id)
         {
-           return await appDbContext.ExpenseCategories.FindAsync(id);
+            return await appDbContext.ExpenseCategories.FindAsync(id);
         }
 
         public async Task<ExpenseCategory?> SelectExpenseCategoryByNameAsync(string name)
@@ -44,7 +44,7 @@ namespace AutoLedger.Infrastructure.Persistence.Repositories
         public async Task UpdateExpenseCategoryAsync(ExpenseCategory expenseCategory)
         {
             appDbContext.ExpenseCategories.Update(expenseCategory);
-             await appDbContext.SaveChangesAsync();
+            await appDbContext.SaveChangesAsync();
         }
     }
 }

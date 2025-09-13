@@ -24,8 +24,8 @@ public class ExpenseCategoryService(IExpenseCategoryRepository expenseCategoryRe
     }
 
     public async Task<ExpenseCategoryResponseDto> GetExpenseCategoryByNameAync(string name)
-    {        
-       var expenseCategory = await expenseCategoryRepository.SelectExpenseCategoryByNameAsync(name);
+    {
+        var expenseCategory = await expenseCategoryRepository.SelectExpenseCategoryByNameAsync(name);
         return new ExpenseCategoryResponseDto()
         {
             Id = expenseCategory.Id,
@@ -33,8 +33,10 @@ public class ExpenseCategoryService(IExpenseCategoryRepository expenseCategoryRe
         };
     }
 
-    public Task UpdateExpenseCategoryAsync(ExpenseCategoryResponseDto expenseCategoryResponse, long id)
+    public async Task UpdateExpenseCategoryAsync(ExpenseCategoryResponseDto expenseCategoryResponse)
     {
-        throw new NotImplementedException();
+        var category = await expenseCategoryRepository.SelectExpenseCategoryByIdAsync(expenseCategoryResponse.Id);
+        category.Name = expenseCategoryResponse.Name;
+        await expenseCategoryRepository.UpdateExpenseCategoryAsync(category);
     }
 }

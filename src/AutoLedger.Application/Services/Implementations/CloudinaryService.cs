@@ -56,7 +56,7 @@ public class CloudinaryService : ICloudService
         if (!IsAudio(file))
             throw new ArgumentException("Faqat musiqiy fayllar qabul qilinadi (mp3, wav, flac).");
 
-        if (file.Length > 15 * 1024 * 1024) // masalan 15MB limit
+        if (file.Length > 15 * 1024 * 1024) 
             throw new ArgumentException("Musiqa fayli hajmi 15MB dan oshmasligi kerak.");
 
         await using var stream = file.OpenReadStream();
