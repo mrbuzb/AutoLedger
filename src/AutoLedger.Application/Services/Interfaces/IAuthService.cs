@@ -10,4 +10,6 @@ public interface IAuthService
     Task EailCodeSender(string email);
     Task LogOut(string token);
     Task<bool> ConfirmCode(string userCode, string email);
+    Task<long> GoogleRegisterAsync(GoogleAuthDto dto);
+    Task<LoginResponseDto> GoogleLoginAsync(GoogleAuthDto dto);
 }

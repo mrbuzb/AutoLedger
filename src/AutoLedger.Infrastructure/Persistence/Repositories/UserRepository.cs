@@ -82,4 +82,9 @@ public class UserRepository(AppDbContext _context) : IUserRepository
         _context.Users.Update(user);
         await _context.SaveChangesAsync();
     }
+
+    public async Task<User> GetUserByGoogleId(string googleId)
+    {
+        return await _context.Users.Include(x=>x.Confirmer).FirstOrDefaultAsync(x=>x.GoogleId == googleId);
+    }
 }
