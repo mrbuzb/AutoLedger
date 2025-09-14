@@ -5,6 +5,7 @@ namespace AutoLedger.Api.Endpoints;
 
 public static class AuthEndpoints
 {
+
     public record SendCodeRequest(string Email);
 
     public static void MapAuthEndpoints(this WebApplication app)
@@ -25,9 +26,6 @@ public static class AuthEndpoints
         })
         .WithName("SendCode");
 
-
-
-
         userGroup.MapPost("/confirm-code",
         async (ConfirmCodeRequest request, IAuthService _service) =>
         {
@@ -38,10 +36,10 @@ public static class AuthEndpoints
 
         userGroup.MapPost("/sign-up",
         async (UserCreateDto user, IAuthService _service) =>
-            {
-                return Results.Ok(await _service.SignUpUserAsync(user));
-            })
-            .AllowAnonymous()
+        {
+            return Results.Ok(await _service.SignUpUserAsync(user));
+        })
+        .AllowAnonymous()
         .WithName("SignUp");
 
         userGroup.MapPost("/login",
@@ -50,8 +48,7 @@ public static class AuthEndpoints
             var result = await _service.LoginUserAsync(user);
             return Results.Ok(result);
         })
-         .WithName("Login");
-
+        .WithName("Login");
 
         userGroup.MapPut("/refresh-token",
         async (RefreshRequestDto refresh, IAuthService _service) =>
@@ -59,7 +56,6 @@ public static class AuthEndpoints
             return Results.Ok(await _service.RefreshTokenAsync(refresh));
         })
         .WithName("RefreshToken");
-
 
         userGroup.MapDelete("/log-out",
         async (string refreshToken, IAuthService _service) =>
@@ -82,5 +78,21 @@ public static class AuthEndpoints
         .DisableAntiforgery()
         .WithTags("ProfileManagement");
 
+
+        userGroup.MapPost("/google-register",
+        async (GoogleAuthDto dto, IAuthService _service) =>
+        {
+            var userId = await _service.GoogleRegisterAsync(dto);
+            return Results.Ok(new { UserId = userId });
+        })
+        .WithName("GoogleRegister");
+
+        userGroup.MapPost("/google-login",
+        async (GoogleAuthDto dto, IAuthService _service) =>
+        {
+            var response = await _service.GoogleLoginAsync(dto);
+            return Results.Ok(response);
+        })
+        .WithName("GoogleLogin");
     }
 }
