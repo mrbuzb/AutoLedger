@@ -63,7 +63,9 @@ public class AuthService(IRoleRepository _roleRepo, IValidator<UserCreateDto> _v
 
         var user = await _userRepo.GetUserByGoogleId(payload.Subject);
 
-        if (user != null)
+        var userByEmail = await _userRepo.GetUserByEmailAsync(payload.Email);
+
+        if (user != null || userByEmail != null)
         {
             return user.UserId;
         }
