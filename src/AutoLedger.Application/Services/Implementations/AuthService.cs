@@ -54,9 +54,6 @@ public class AuthService(IRoleRepository _roleRepo, IValidator<UserCreateDto> _v
 
 
 
-
-
-
     public async Task<long> GoogleRegisterAsync(GoogleAuthDto dto)
     {
         var payload = await GoogleJsonWebSignature.ValidateAsync(dto.IdToken, new GoogleJsonWebSignature.ValidationSettings());
@@ -92,8 +89,6 @@ public class AuthService(IRoleRepository _roleRepo, IValidator<UserCreateDto> _v
         await _userRepo.UpdateUserAsync(userEntity);
         return user.UserId;
     }
-
-
 
 
 
