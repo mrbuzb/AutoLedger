@@ -53,7 +53,7 @@ public class VehicleService(IVehicleRepository _repo) : IVehicleService
         await _repo.UpdateVehicleAsync(entity);
     }
 
-    public VehicleDto Converter(Vehicle entity)
+    private VehicleDto Converter(Vehicle entity)
     {
         return new VehicleDto
         {

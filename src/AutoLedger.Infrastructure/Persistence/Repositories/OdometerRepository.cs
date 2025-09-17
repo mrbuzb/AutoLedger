@@ -40,6 +40,11 @@ public class OdometerRepository(AppDbContext _context) : IOdometerRepository
         return await _context.Odometers.Where(x=>x.VehicleId == vehicleId).ToListAsync();
     }
 
+    public async Task<bool> OdometerOwnerAsync(long odometerId, long userId)
+    {
+        return await _context.Odometers.AnyAsync(x=>x.Id == odometerId && x.Vehicle.UserId == userId);
+    }
+
     public async Task UpdateOdometerAsync(Odometer odometer)
     {
         _context.Odometers.Update(odometer);
