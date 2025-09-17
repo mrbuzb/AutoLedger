@@ -7,6 +7,7 @@ public interface IOdometerRepository
     Task<long> AddOdometerAsync(Odometer odometer);
     Task DeleteOdometerAsync(long odometerId, long userId);
     Task UpdateOdometerAsync(Odometer odometer);
+    Task<bool> OdometerOwnerAsync(long odometerId, long userId);
     Task<ICollection<Odometer>> GetOdometersByVehicleIdAsync(long vehicleId);
     Task<Odometer> GetOdometerByIdAsync(long odometerId);
 }
