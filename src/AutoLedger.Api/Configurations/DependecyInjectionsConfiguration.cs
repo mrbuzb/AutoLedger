@@ -25,5 +25,7 @@ public static class DependecyInjectionsConfiguration
         services.AddScoped<IValidator<UserCreateDto>, UserCreateDtoValidator>();
         services.AddScoped<IValidator<UserLoginDto>, UserLoginDtoValidator>();
         services.AddSingleton<Cloudinary>();
+        services.AddScoped<IExpenseCategoryService, ExpenseCategoryService>();
+        services.AddScoped<IExpenseCategoryRepository, ExspenseCategoryRepository>();
     }
 }

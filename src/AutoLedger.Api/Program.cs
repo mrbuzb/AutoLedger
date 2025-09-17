@@ -61,6 +61,7 @@ namespace AutoLedger.Api
             app.UseMiddleware<ExceptionHandlingMiddleware>();
             app.MapAuthEndpoints();
             app.MapAdminEndpoints();
+            app.MapExpenseCotegorys();
 
             app.MapControllers();
 
