@@ -16,8 +16,8 @@ public class ExpenseRepository(AppDbContext _context) : IExpenseRepository
 
     public async Task DeleteExpenseAsync(long expenseId, long userId)
     {
-        var expense = await _context.Expenses.Include(x=>x.Vehicle).FirstOrDefaultAsync(x=>x.Id == expenseId);
-        if(expense == null || expense.Vehicle.UserId != userId)
+        var expense = await _context.Expenses.Include(x => x.Vehicle).FirstOrDefaultAsync(x => x.Id == expenseId);
+        if (expense == null || expense.Vehicle.UserId != userId)
         {
             throw new NotAllowedException();
         }
@@ -27,7 +27,7 @@ public class ExpenseRepository(AppDbContext _context) : IExpenseRepository
 
     public async Task<Expense> GetExpenseByIdAsync(long expenseId)
     {
-        var expense = await _context.Expenses.FindAsync(expenseId);
+        var expense = await _context.Expenses.Include(x=>x.Category).Include(x=>x.Vehicle).FirstOrDefaultAsync(x=>x.Id == expenseId);
         if (expense == null)
         {
             throw new EntityNotFoundException($"Expense not found with id {expenseId}");
@@ -35,9 +35,33 @@ public class ExpenseRepository(AppDbContext _context) : IExpenseRepository
         return expense;
     }
 
+    public async Task<ICollection<Expense>> GetExpensesByCategoryAsync(long vehicleId, long categoryId)
+    {
+        return await _context.Expenses.Include(x => x.Category).Where(x => x.CategoryId == categoryId && x.VehicleId == vehicleId).ToListAsync();
+    }
+
+    public async Task<ICollection<Expense>> GetExpensesByDateRangeAsync(long vehicleId, DateTime startDate, DateTime endDate)
+    {
+        return await _context.Expenses.Include(x => x.Category).Where(x => x.Date >= startDate && x.Date <= endDate && x.VehicleId == vehicleId).ToListAsync();
+    }
+
     public async Task<ICollection<Expense>> GetExpensesByVehicleIdAsync(long vehicleId)
     {
-        return await _context.Expenses.Where(x=>x.VehicleId == vehicleId).ToListAsync();
+        return await _context.Expenses.Include(x => x.Category).Where(x => x.VehicleId == vehicleId).ToListAsync();
+    }
+
+    public async Task<ICollection<Expense>> GetLatestExpensesAsync(long vehicleId, int count = 10)
+    {
+        return await _context.Expenses.Include(x => x.Category)
+        .Where(e => e.VehicleId == vehicleId)
+        .OrderByDescending(e => e.Date)
+        .Take(count)
+        .ToListAsync();
+    }
+
+    public async Task<decimal> GetTotalAmountAsync(long vehicleId, DateTime startDate, DateTime endDate)
+    {
+        return await _context.Expenses.Where(x => x.VehicleId == vehicleId && x.Date >= startDate && x.Date <= endDate).SumAsync(x => x.Amount);
     }
 
     public async Task UpdateExpenseAsync(Expense expense)
