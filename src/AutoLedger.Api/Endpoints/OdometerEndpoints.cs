@@ -13,7 +13,7 @@ public static class OdometerEndpoints
 
         group.MapPost("/", async (OdometerCreateDto dto, IOdometerService service, HttpContext ctx) =>
         {
-            var userId = long.Parse(ctx.User.FindFirst("sub")!.Value);
+            var userId = long.Parse(ctx.User.FindFirst("UserId")!.Value);
             var id = await service.AddOdometerAsync(dto, userId);
             return Results.Ok(new { Id = id });
         });
