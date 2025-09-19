@@ -27,5 +27,12 @@ public static class DependecyInjectionsConfiguration
         services.AddSingleton<Cloudinary>();
         services.AddScoped<IExpenseCategoryService, ExpenseCategoryService>();
         services.AddScoped<IExpenseCategoryRepository, ExspenseCategoryRepository>();
+        services.AddScoped<IVehicleService, VehicleService>();
+        services.AddScoped<IVehicleRepository, VehicleRepository>();
+        services.AddScoped<IExpenseService, ExpenseService>();
+        services.AddScoped<IExpenseRepository, ExpenseRepository>();
+        services.AddScoped<IOdometerService, OdometerService>();
+        services.AddScoped<IOdometerRepository, OdometerRepository>();
+
     }
 }
