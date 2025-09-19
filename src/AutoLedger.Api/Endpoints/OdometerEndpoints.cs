@@ -20,7 +20,7 @@ public static class OdometerEndpoints
 
         group.MapPut("/{odometerId:long}", async (long odometerId, OdometerUpdateDto dto, IOdometerService service, HttpContext ctx) =>
         {
-            var userId = long.Parse(ctx.User.FindFirst("sub")!.Value);
+            var userId = long.Parse(ctx.User.FindFirst("UserId")!.Value);
             dto.OdometerId = odometerId;
             await service.UpdateOdometerAsync(dto, userId);
             return Results.NoContent();
@@ -28,7 +28,7 @@ public static class OdometerEndpoints
 
         group.MapDelete("/{odometerId:long}", async (long odometerId, IOdometerService service, HttpContext ctx) =>
         {
-            var userId = long.Parse(ctx.User.FindFirst("sub")!.Value);
+            var userId = long.Parse(ctx.User.FindFirst("UserId")!.Value);
             await service.DeleteOdometerAsync(odometerId, userId);
             return Results.NoContent();
         });

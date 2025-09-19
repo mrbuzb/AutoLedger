@@ -13,14 +13,14 @@ public static class VehicleEndpoints
 
         group.MapPost("/", async (VehicleCreateDto dto, IVehicleService service, HttpContext ctx) =>
         {
-            var userId = long.Parse(ctx.User.FindFirst("sub")!.Value);
+            var userId = long.Parse(ctx.User.FindFirst("UserId")!.Value);
             var id = await service.AddVehicleAsync(dto, userId);
             return Results.Ok(new { Id = id });
         });
 
         group.MapPut("/{vehicleId:long}", async (long vehicleId, VehicleUpdateDto dto, IVehicleService service, HttpContext ctx) =>
         {
-            var userId = long.Parse(ctx.User.FindFirst("sub")!.Value);
+            var userId = long.Parse(ctx.User.FindFirst("UserId")!.Value);
             dto.Id = vehicleId;
             await service.UpdateVehicleAsync(dto, userId);
             return Results.NoContent();
@@ -28,7 +28,7 @@ public static class VehicleEndpoints
 
         group.MapDelete("/{vehicleId:long}", async (long vehicleId, IVehicleService service, HttpContext ctx) =>
         {
-            var userId = long.Parse(ctx.User.FindFirst("sub")!.Value);
+            var userId = long.Parse(ctx.User.FindFirst("UserId")!.Value);
             await service.DeleteVehicleAsync(vehicleId, userId);
             return Results.NoContent();
         });
@@ -41,7 +41,7 @@ public static class VehicleEndpoints
 
         group.MapGet("/", async (IVehicleService service, HttpContext ctx) =>
         {
-            var userId = long.Parse(ctx.User.FindFirst("sub")!.Value);
+            var userId = long.Parse(ctx.User.FindFirst("UserId")!.Value);
             var vehicles = await service.GetAllVehicleAsync(userId);
             return Results.Ok(vehicles);
         });
