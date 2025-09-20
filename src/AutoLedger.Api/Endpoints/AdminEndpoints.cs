@@ -1,7 +1,8 @@
-﻿using System.Security.Claims;
+﻿using AutoLedger.Application.Dtos;
 using AutoLedger.Application.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace AutoLedger.Api.Endpoints;
 
@@ -46,5 +47,26 @@ public static class AdminEndpoints
             return Results.Ok();
         })
         .WithName("UpdateUserRole");
+        userGroup.MapPost("/create", [Authorize(Roles = "Admin, SuperAdmin")]
+        async (string name, IExpenseCategoryService _cotegory) =>
+            {
+                var cotegory = await _cotegory.AddExpenseCategoryAsync(name);
+                return Results.Ok(cotegory);
+            })
+            .WithName("CreatExpenseCategory");
+        userGroup.MapDelete("/delete", [Authorize(Roles = "Admin, SuperAdmin")]
+        async (long id, IExpenseCategoryService _cotegory) =>
+            {
+                await _cotegory.DeleteExpenseCategoryAsync(id);
+                return Results.Ok();
+            })
+        .WithName("deleteExpenseCategory");
+        userGroup.MapPut("/update", [Authorize(Roles = "Admin, SuperAdmin")]
+        async (ExpenseCategoryResponseDto dto, IExpenseCategoryService _cotegory) =>
+           {
+               await _cotegory.UpdateExpenseCategoryAsync(dto);
+               return Results.Ok();
+           })
+           .WithName("updateExpenseCategory");
     }
 }
