@@ -12,14 +12,14 @@ public static class ExpenseEndpoints
 
         group.MapPost("/", async (ExpenseCreateDto dto, IExpenseService service, HttpContext ctx) =>
         {
-            var userId = long.Parse(ctx.User.FindFirst("sub")!.Value);
+            var userId = long.Parse(ctx.User.FindFirst("UserId")!.Value);
             var id = await service.AddExpenseAsync(dto, userId);
             return Results.Ok(new { Id = id });
         });
 
         group.MapPut("/{expenseId:long}", async (long expenseId, ExpenseUpdateDto dto, IExpenseService service, HttpContext ctx) =>
         {
-            var userId = long.Parse(ctx.User.FindFirst("sub")!.Value);
+            var userId = long.Parse(ctx.User.FindFirst("UserId")!.Value);
             dto.ExpenseId = expenseId;
             await service.UpdateExpenseAsync(dto, userId);
             return Results.NoContent();
@@ -27,7 +27,7 @@ public static class ExpenseEndpoints
 
         group.MapDelete("/{expenseId:long}", async (long expenseId, IExpenseService service, HttpContext ctx) =>
         {
-            var userId = long.Parse(ctx.User.FindFirst("sub")!.Value);
+            var userId = long.Parse(ctx.User.FindFirst("UserId")!.Value);
             await service.DeleteExpenseAsync(expenseId, userId);
             return Results.NoContent();
         });
