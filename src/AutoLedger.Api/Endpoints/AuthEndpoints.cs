@@ -34,7 +34,7 @@ public static class AuthEndpoints
         })
         .WithName("ConfirmCode");
 
-        userGroup.MapPost("/sign-up",
+        userGroup.MapPost("/register",
         async (UserCreateDto user, IAuthService _service) =>
         {
             return Results.Ok(await _service.SignUpUserAsync(user));
@@ -49,6 +49,22 @@ public static class AuthEndpoints
             return Results.Ok(result);
         })
         .WithName("Login");
+
+        userGroup.MapPost("/google-register",
+        async (GoogleAuthDto dto, IAuthService _service) =>
+        {
+            var userId = await _service.GoogleRegisterAsync(dto);
+            return Results.Ok(new { UserId = userId });
+        })
+        .WithName("GoogleRegister");
+
+        userGroup.MapPost("/google-login",
+        async (GoogleAuthDto dto, IAuthService _service) =>
+        {
+            var response = await _service.GoogleLoginAsync(dto);
+            return Results.Ok(response);
+        })
+        .WithName("GoogleLogin");
 
         userGroup.MapPut("/refresh-token",
         async (RefreshRequestDto refresh, IAuthService _service) =>
@@ -79,20 +95,6 @@ public static class AuthEndpoints
         .WithTags("ProfileManagement");
 
 
-        userGroup.MapPost("/google-register",
-        async (GoogleAuthDto dto, IAuthService _service) =>
-        {
-            var userId = await _service.GoogleRegisterAsync(dto);
-            return Results.Ok(new { UserId = userId });
-        })
-        .WithName("GoogleRegister");
-
-        userGroup.MapPost("/google-login",
-        async (GoogleAuthDto dto, IAuthService _service) =>
-        {
-            var response = await _service.GoogleLoginAsync(dto);
-            return Results.Ok(response);
-        })
-        .WithName("GoogleLogin");
+        
     }
 }

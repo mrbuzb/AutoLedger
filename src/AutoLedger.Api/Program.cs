@@ -64,6 +64,7 @@ namespace AutoLedger.Api
             app.MapExpenseCotegorys();
             app.MapExpenseEndpoints();
             app.MapOdometerEndpoints();
+            app.MapVehicleEndpoints();
 
             app.MapControllers();
 

@@ -7,7 +7,7 @@ public static class VehicleEndpoints
 {
     public static IEndpointRouteBuilder MapVehicleEndpoints(this IEndpointRouteBuilder endpoints)
     {
-        var group = endpoints.MapGroup("/api/vehicles")
+        var group = endpoints.MapGroup("/api/vehicle")
             .WithTags("Vehicles");
             
 
@@ -18,22 +18,21 @@ public static class VehicleEndpoints
             return Results.Ok(new { Id = id });
         });
 
-        group.MapPut("/{vehicleId:long}", async (long vehicleId, VehicleUpdateDto dto, IVehicleService service, HttpContext ctx) =>
+        group.MapPut("/", async (VehicleUpdateDto dto, IVehicleService service, HttpContext ctx) =>
         {
             var userId = long.Parse(ctx.User.FindFirst("UserId")!.Value);
-            dto.Id = vehicleId;
             await service.UpdateVehicleAsync(dto, userId);
             return Results.NoContent();
         });
 
-        group.MapDelete("/{vehicleId:long}", async (long vehicleId, IVehicleService service, HttpContext ctx) =>
+        group.MapDelete("/{Id}", async (long vehicleId, IVehicleService service, HttpContext ctx) =>
         {
             var userId = long.Parse(ctx.User.FindFirst("UserId")!.Value);
             await service.DeleteVehicleAsync(vehicleId, userId);
             return Results.NoContent();
         });
 
-        group.MapGet("/{vehicleId:long}", async (long vehicleId, IVehicleService service) =>
+        group.MapGet("/{Id}", async (long vehicleId, IVehicleService service) =>
         {
             var vehicle = await service.GetVehicleByIdAsync(vehicleId);
             return Results.Ok(vehicle);
