@@ -13,7 +13,6 @@ public class OdometerService(IOdometerRepository _repo) : IOdometerService
         return await _repo.AddOdometerAsync(new Odometer
         {
             Date = odometer.Date,
-            Id = userId,
             Value = odometer.Value,
             VehicleId = odometer.VehicleId,
         });

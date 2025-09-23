@@ -1,10 +1,12 @@
 ﻿using AutoLedger.Application.Dtos;
 using AutoLedger.Application.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AutoLedger.Api.Endpoints;
 
 public static class ExpenseEndpoints
 {
+    public record DateRange(long vehicleId, DateTime startDate, DateTime endDate);
     public static IEndpointRouteBuilder MapExpenseEndpoints(this IEndpointRouteBuilder endpoints)
     {
         var group = endpoints.MapGroup("/api/expenses")
@@ -17,7 +19,7 @@ public static class ExpenseEndpoints
             return Results.Ok(new { Id = id });
         });
 
-        group.MapPut("/{expenseId:long}", async (long expenseId, ExpenseUpdateDto dto, IExpenseService service, HttpContext ctx) =>
+        group.MapPut("/", async (long expenseId, ExpenseUpdateDto dto, IExpenseService service, HttpContext ctx) =>
         {
             var userId = long.Parse(ctx.User.FindFirst("UserId")!.Value);
             dto.ExpenseId = expenseId;
@@ -25,46 +27,46 @@ public static class ExpenseEndpoints
             return Results.NoContent();
         });
 
-        group.MapDelete("/{expenseId:long}", async (long expenseId, IExpenseService service, HttpContext ctx) =>
+        group.MapDelete("/{Id}", async (long expenseId, IExpenseService service, HttpContext ctx) =>
         {
             var userId = long.Parse(ctx.User.FindFirst("UserId")!.Value);
             await service.DeleteExpenseAsync(expenseId, userId);
             return Results.NoContent();
         });
 
-        group.MapGet("/{expenseId:long}", async (long expenseId, IExpenseService service) =>
+        group.MapGet("/{Id}", async (long expenseId, IExpenseService service) =>
         {
             var expense = await service.GetExpenseByIdAsync(expenseId);
             return Results.Ok(expense);
         });
 
-        group.MapGet("/vehicle/{vehicleId:long}", async (long vehicleId, IExpenseService service) =>
+        group.MapGet("/by{vehicleId}", async (long vehicleId, IExpenseService service) =>
         {
             var expenses = await service.GetExpensesByVehicleIdAsync(vehicleId);
             return Results.Ok(expenses);
         });
 
-        group.MapGet("/vehicle/{vehicleId:long}/category/{categoryId:long}", async (long vehicleId, long categoryId, IExpenseService service) =>
+        group.MapGet("/by{vehicleId}/{categoryId}", async (long vehicleId, long categoryId, IExpenseService service) =>
         {
             var expenses = await service.GetExpensesByCategoryAsync(vehicleId, categoryId);
             return Results.Ok(expenses);
         });
 
-        group.MapGet("/vehicle/{vehicleId:long}/daterange", async (long vehicleId, DateTime startDate, DateTime endDate, IExpenseService service) =>
+        group.MapPost("/{vehicleId}/daterange", async ([FromBody]DateRange record,[FromServices] IExpenseService service) =>
         {
-            var expenses = await service.GetExpensesByDateRangeAsync(vehicleId, startDate, endDate);
+            var expenses = await service.GetExpensesByDateRangeAsync(record.vehicleId, record.startDate, record.endDate);
             return Results.Ok(expenses);
         });
 
-        group.MapGet("/vehicle/{vehicleId:long}/latest", async (long vehicleId, int count, IExpenseService service) =>
+        group.MapGet("/{vehicleId}/latest", async (long vehicleId, int count, IExpenseService service) =>
         {
             var expenses = await service.GetLatestExpensesAsync(vehicleId, count);
             return Results.Ok(expenses);
         });
 
-        group.MapGet("/vehicle/{vehicleId:long}/total", async (long vehicleId, DateTime startDate, DateTime endDate, IExpenseService service) =>
+        group.MapPost("/{vehicleId}/total", async ([FromBody]DateRange record, [FromServices]IExpenseService service) =>
         {
-            var total = await service.GetTotalAmountAsync(vehicleId, startDate, endDate);
+            var total = await service.GetTotalAmountAsync(record.vehicleId, record.startDate, record.endDate);
             return Results.Ok(new { TotalAmount = total });
         });
 

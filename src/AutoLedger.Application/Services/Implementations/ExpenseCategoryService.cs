@@ -1,6 +1,7 @@
 ﻿using AutoLedger.Application.Dtos;
 using AutoLedger.Application.Interfaces;
 using AutoLedger.Application.Services.Interfaces;
+using AutoLedger.Core.Errors;
 using AutoLedger.Domain.Entities;
 
 namespace AutoLedger.Application.Services.Implementations;
@@ -25,7 +26,7 @@ public class ExpenseCategoryService(IExpenseCategoryRepository expenseCategoryRe
 
     public async Task<ExpenseCategoryResponseDto> GetExpenseCategoryByNameAync(string name)
     {
-        var expenseCategory = await expenseCategoryRepository.SelectExpenseCategoryByNameAsync(name);
+        var expenseCategory = await expenseCategoryRepository.SelectExpenseCategoryByNameAsync(name) ?? throw new EntityNotFoundException();
         return new ExpenseCategoryResponseDto()
         {
             Id = expenseCategory.Id,
